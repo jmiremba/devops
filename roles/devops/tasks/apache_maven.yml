@@ -1,0 +1,30 @@
+---
+# Extract archive
+- name: Extract Maven to install directory
+  unarchive: src={{ maven_src_tar }} dest={{ maven_install_dir }} mode=0777 owner=root
+
+# Shared symlink
+- name: Symlink Maven install directory
+  file: src={{ maven_home }} path={{ maven_shared_home }} state=link force=yes
+  
+# Global variables
+- name: Maven global environment variables
+  template: src=maven/profile.sh.j2 dest={{ maven_profile_sh }} mode="u=rwx,g=r,o=r" owner=root
+
+# Source the profile
+- name: Source Maven profile
+  shell: source {{ maven_profile_sh }}
+  
+# Settings
+- name: Maven global settings
+  template: src=maven/settings.xml.j2 dest={{ maven_shared_home }}/conf/settings.xml mode="u=rwx,g=r,o=r" owner=root
+
+- name: Setup Maven alternatives
+  template: src=maven/alternatives.j2 dest=~/alternatives.sh mode="u=rwx,g=r,o=r"
+
+- name: Apply Maven alternatives
+  shell: ~/alternatives.sh
+
+- name: Delete alternatives script
+  file: path=~/alternatives.sh state=absent
+  

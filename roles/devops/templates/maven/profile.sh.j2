@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+export M2_HOME={{ maven_home }}
+export M2_REPO={{ maven_repo_dir }}
+export PATH=$M2_HOME/bin:$PATH

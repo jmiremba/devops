@@ -11,9 +11,18 @@ yum_libraries_utilities:
 - dkms
 - iptables-services
 
-# Java 8
+# Java
 java_version: 1.8.0_112
 java_install_dir: /apps
-java_src_tar: java/jdk-8u112-linux-x64.tar.gz
+java_src_tar: jdk-8u112-linux-x64.tar.gz
 java_home: /apps/jdk1.8.0_112
 java_shared_home: /usr/shared/java
+
+# Maven
+maven_version: 3.3.9
+maven_install_dir: /apps
+maven_src_tar: apache-maven-3.3.9-bin.tar.gz
+maven_home: /apps/apache-maven-3.3.9
+maven_shared_home: /usr/shared/maven
+maven_repo_dir: /data/maven/repo
+maven_profile_sh: /etc/profile.d/maven.sh

@@ -35,7 +35,12 @@
 - name: Enable SELinux
   command: setenforce 1
 
-# Java8
+# Java
 - name: Install Java
   include: oracle_java.yml
   when: JDK_NOT_INSTALLED
+
+# Maven
+- name: Install Maven
+  include: apache_maven.yml
+  when: MAVEN_NOT_INSTALLED
