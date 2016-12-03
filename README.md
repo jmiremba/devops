@@ -1,2 +1,2 @@
-# devops
-#devops configuration using Ansible
+DEVOPS + ANSIBLE
+DEVOPS configuration using Ansible
