@@ -1,0 +1,11 @@
+---
+# Installed version
+- name: Check MySQL version
+  shell: mysql --version | sed 's/^.*ver //ig' | sed 's/ using.*$//ig'
+  register: installed_mysql_version
+- set_fact:
+    MYSQL_VERSION: "{{ installed_mysql_version.stdout }}"
+    MYSQL_NOT_INSTALLED: "{{ mysql_version not in installed_mysql_version.stdout }}"
+- name: Installed MYSQL version
+  debug: msg="Installed MYSQL version = {{ MYSQL_VERSION }}"
+  

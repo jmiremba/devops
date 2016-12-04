@@ -1,0 +1,78 @@
+---
+# Encrypted variables
+- include_vars: secrets.yml
+
+# Gather tasks
+- include: facts.yml
+
+# YUM repositories
+- name: MySQL and Python repositories
+  yum: name={{ item }} state=installed
+  with_items:
+  - 'http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm'
+
+# MySQL packages
+- name: MySQL packages
+  yum: name={{ item }} state=installed
+  with_items:
+  - mysql-community-server
+  - python-pip
+  - python-devel
+  - mysql-devel
+
+# Python packages
+- name: MySQL/Python library
+  pip: name=mysql-python state=present
+
+# Data directory
+- name: Data directory for MySQL
+  file:
+    path: "{{ mysql_data_dir }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode:  0775
+    setype: mysqld_db_t
+
+# IPTABLES port configuration
+- name: Allow MySQL TCP port in IPTABLES
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    regexp: '-A INPUT -p tcp -m tcp --dport {{ mysql_port }} -j ACCEPT'
+    insertbefore: '-A INPUT -j REJECT --reject-with icmp-host-prohibited'
+    line: '-A INPUT -p tcp -m tcp --dport {{ mysql_port }} -j ACCEPT'
+
+# Restart IPTABLES
+- name: Restart IPTABLES service
+  command: systemctl restart iptables
+  # For some reason the "service" module couldn't find the service
+
+# Allow MySQL to listen on its port
+- name: SELinux allows MySQL port
+  seport: ports={{ mysql_port }} proto=tcp setype=mysqld_port_t state=present
+
+- name: Start the MySQL database
+  service: name=mysqld state=started enabled=true
+
+# Set root password for MySQL
+- name: Update root password
+  mysql_user:
+    name: "{{ mysql_root_username }}"
+    password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    login_user: "{{ mysql_root_username }}"
+    login_password: "{{ mysql_root_password }}"
+    state: present
+
+# Prevent remote root login and remove anonymous users
+- name: Prevent remote root and anonymous login
+  command: 'mysql -u {{ mysql_root_username }} -p{{ mysql_root_password }} -NBe "{{ item }}"'
+  with_items:
+  - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  - DELETE FROM mysql.user WHERE User='' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  changed_when: false
+  check_mode: no
+
+# Remove the test database
+- name: Remove test database
+  mysql_db: name=test state=absent login_password={{ mysql_root_password }}

@@ -10,3 +10,7 @@ http://www.oracle.com/technetwork/java/javase/overview/index.html
 #### Maven 3.3.9 ####
 Most of my Java applications are built using Maven, which manages my dependencies and build profiles.
 https://maven.apache.org/index.html
+
+#### MySQL 5.6 ####
+The MySQL database is being installed here, not for the applications we will be managing, but for those that will be running as part of the devops infrastructure. For example, Artifactory (which I plan to provision soon) will need it, along with messaging services and an ESB perhaps.
+https://dev.mysql.com/downloads/mysql/5.6.html
