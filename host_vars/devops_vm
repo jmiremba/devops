@@ -2,3 +2,7 @@
 is_vm: true
 ansible_ssh_user: vagrant
 ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
+
+# Artifactory
+artifactory_server_name: devops
+artifactory_mail_url: http://localhost:18081

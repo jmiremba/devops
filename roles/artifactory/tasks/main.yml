@@ -1,0 +1,130 @@
+---
+# Encrypted variables
+- include_vars: secrets.yml
+
+# Check  whether the Artifactory service exists
+- name: Check whether service exists
+  stat: path=/etc/init.d/artifactory
+  register: artifactory_service
+
+# Stop the Artifactory service if it exists
+- name: Artifactory service stopped
+  service: name=artifactory state=stopped
+  when: artifactory_service.stat.exists == true
+
+# Directories needed during setup of Artifactory
+- name: Artifactory directories
+  file: path={{ item }} state=directory
+  with_items:
+  - "{{ artifactory_home_dir }}"
+  - "{{ artifactory_opt_dir }}"
+  - "{{ artifactory_install_dir }}/logs/catalina"
+
+# Extract the .zip file to the apps directory
+- name: Extract archive to home directory
+  unarchive: src={{ artifactory_zip }} dest={{ apps_dir }}
+
+# Remove any backup directories created during previous installation
+- name: Remove previous installation directories
+  file: path={{ artifactory_install_dir }}/{{ item }} state=absent
+  with_items:
+  - 'etc.original'
+
+# Install the Artifactory service and dependencies as needed
+- name: Artifactory service installed
+  shell: "{{ artifactory_install_dir }}/bin/installService.sh"
+
+# Since we have changed our Tomcat SHUTDOWN port, Artifactory must know about it
+- name: Update service management port
+  lineinfile:
+    dest: /etc/rc.d/init.d/artifactory
+    regexp: '^CATALINA_MGNT_PORT=.*'
+    insertafter: '# Basic variables used'
+    line: 'CATALINA_MGNT_PORT={{ artifactory_shutdown_port }}'
+
+# The ETC directory now lives in OPT (symlinked)
+- name: Remove /etc directory or link
+  file: path={{ artifactory_home_dir }}/etc state=absent
+- name: Link artifactory /etc to OPT
+  file: src=/etc/opt/jfrog/artifactory dest={{ artifactory_home_dir }}/etc state=link force=yes
+
+# Directories that should be in the home directory
+- name: Copy home folders
+  command: mv -n {{ artifactory_install_dir }}/{{ item }}/ {{ artifactory_home_dir }}
+  with_items:
+  - webapps
+
+# Remove directories from installation directory that belong in home directory
+- name: Ensure home folders not in install dir
+  file: path={{ artifactory_install_dir }}/{{ item }} state=absent
+  with_items: "{{ home_dirs_to_move }}"
+
+# Copy the configuration files over (Tomcat, Artifactory, Users)
+- name: Artifactory configuration files
+  template: src={{ item.src }} dest={{ item.dest }} mode="u=rwx,g=r,o=r" owner=root
+  with_items:
+  - src: server.xml.j2
+    dest: "{{ artifactory_install_dir }}/tomcat/conf/server.xml"
+  - src: default.j2
+    dest: "{{ artifactory_opt_dir }}/default"
+  - src: artifactory.config.xml.j2
+    dest: "{{ artifactory_home_dir }}/etc/artifactory.config.bootstrap.xml"
+  - src: security.import.xml.j2
+    dest: "{{ artifactory_home_dir }}/etc/security.import.xml"
+
+# Security XML must be owned by Artifactory in order to be read in.
+- name: Update file ownership for security.xml
+  file: path="{{ artifactory_home_dir }}/etc/security.import.xml" owner=artifactory mode=0755
+
+# Ensure system properties are set
+- name: Update system config properties
+  lineinfile:
+    dest: '{{ artifactory_home_dir }}/etc/artifactory.system.properties'
+    regexp: '.*{{ item.property }}=.*'
+    line: '{{ item.property }}={{ item.value }}'
+  with_items:
+  - property: 'artifactory.repo.global.disabled'
+    value: 'true'
+  - property: 'derby.storage.pageCacheSize'
+    value: '500'
+  - property: 'derby.module.mgmt.jmx'
+    value: 'org.apache.derby.impl.services.jmxnone.NoManagementService'
+  - property: 'derby.stream.error.logSeverityLevel'
+    value: '0'
+  - property: 'derby.language.logStatementText'
+    value: 'false'
+
+# Setup SELinux to allow the ports we plan to use
+- name: SELinux settings for TCP ports
+  seport: ports={{ item }} proto=tcp setype=http_port_t state=present
+  with_items:
+  - '{{ artifactory_http_port }}'
+  - '{{ artifactory_ajp_port }}'
+  - '{{ artifactory_shutdown_port }}'
+
+# Also setup the firewall to allow the ports we plan to use
+- name: Firewall settings for TCP ports
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    regexp: '-A INPUT -p tcp -m tcp --dport {{ item }} -j ACCEPT'
+    insertbefore: '-A INPUT -j REJECT --reject-with icmp-host-prohibited'
+    line: '-A INPUT -p tcp -m tcp --dport {{ item }} -j ACCEPT'
+  with_items:
+  - '{{ artifactory_http_port }}'
+  - '{{ artifactory_ajp_port }}'
+  - '{{ artifactory_shutdown_port }}'
+
+# Restart the firewall
+- name: Restart IPTABLES service
+  command: systemctl restart iptables
+
+# Artifactory files should be owned by Artifactory
+- name: Directory permissions
+  shell: "{{ item }}"
+  with_items:
+  - "chown -R artifactory: {{ artifactory_home_dir }}/"
+  - "chmod -R u+rwx {{ artifactory_home_dir }}/"
+
+# Start the Artifactory service
+- name: Artifactory service started
+  service: name=artifactory state=started enabled=true

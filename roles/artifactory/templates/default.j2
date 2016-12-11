@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+export ARTIFACTORY_HOME={{ artifactory_home_dir }}
+export ARTIFACTORY_USER=artifactory
+export JAVA_HOME=/usr/shared/java
+export TOMCAT_HOME={{ artifactory_install_dir }}/tomcat
+export ARTIFACTORY_PID={{ artifactory_install_dir }}/run/artifactory.pid
+export JAVA_OPTIONS="-server -Xms512m -Xmx1g -Xss256k -XX:+UseG1GC"
+export JAVA_OPTIONS="$JAVA_OPTIONS -Djruby.compile.invokedynamic=false -Dfile.encoding=UTF8 -Dartdist=zip"

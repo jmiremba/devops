@@ -8,3 +8,7 @@ workhorse
 [mysql_servers]
 devops_vm
 workhorse
+
+[artifactory_servers]
+devops_vm
+workhorse

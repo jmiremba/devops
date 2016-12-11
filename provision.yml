@@ -6,3 +6,5 @@
   roles:
   - devops
   - mysql
+  - role: artifactory
+    tags: artifactory

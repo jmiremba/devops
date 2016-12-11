@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+{{ ansible_managed }}
+-->
+
+<Server port="{{ artifactory_shutdown_port }}" shutdown="SHUTDOWN">
+    <Service name="Catalina">
+        <!-- HTTP connector -->
+        <Connector port="{{ artifactory_http_port }}"/>
+
+        <!-- AJP connector -->
+        <Connector port="{{ artifactory_ajp_port }}" protocol="AJP/1.3"/>
+
+        <Engine name="Catalina" defaultHost="localhost">
+            <Host name="localhost" appBase="webapps"/>
+        </Engine>
+    </Service>
+</Server>

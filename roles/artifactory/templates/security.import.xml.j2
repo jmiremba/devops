@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+{{ ansible_managed }}
+-->
+
+<security version="v8">
+    <users>
+        <user>
+            <username>admin</username>
+            <password>{{ artifactory_admin_password_md5 }}</password>
+            <admin>true</admin>
+            <enabled>true</enabled>
+            <updatableProfile>true</updatableProfile>
+            <accountNonExpired>true</accountNonExpired>
+            <credentialsNonExpired>true</credentialsNonExpired>
+            <accountNonLocked>true</accountNonLocked>
+            <groups/>
+        </user>
+        <user>
+            <username>{{ artifactory_user_username }}</username>
+            <password>{{ artifactory_user_password_md5 }}</password>
+            <admin>true</admin>
+            <enabled>true</enabled>
+            <updatableProfile>true</updatableProfile>
+            <accountNonExpired>true</accountNonExpired>
+            <credentialsNonExpired>true</credentialsNonExpired>
+            <accountNonLocked>true</accountNonLocked>
+            <groups/>
+        </user>
+    </users>
+    <groups/>
+    <acls/>
+</security>

@@ -1,0 +1,20 @@
+---
+# Where Artifactory will be extracted
+apps_dir: /apps
+
+# Install directory (after extraction)
+artifactory_install_dir: /apps/artifactory-oss-4.14.3
+
+# Home directory
+artifactory_home_dir: /data/artifactory
+
+# TCP ports the server will use
+artifactory_http_port: 18081
+artifactory_ajp_port: 28081
+artifactory_shutdown_port: 38081
+
+# Arfifactory ETC directory
+artifactory_opt_dir: /etc/opt/jfrog/artifactory
+
+# Configuration
+artifactory_mail_subject_prefix: '[Artifactory@STRIVE]'

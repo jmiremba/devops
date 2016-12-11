@@ -1,0 +1,5 @@
+---
+artifactory_zip: jfrog-artifactory-oss-4.14.3.zip
+home_dirs_to_move:
+- etc
+- webapps
