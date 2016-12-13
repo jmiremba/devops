@@ -9,7 +9,7 @@
   
 # Global variables
 - name: Maven global environment variables
-  template: src=maven/profile.sh.j2 dest={{ maven_profile_sh }} mode="u=rwx,g=r,o=r" owner=root
+  template: src=profile.sh.j2 dest={{ maven_profile_sh }} mode="u=rwx,g=r,o=r" owner=root
 
 # Source the profile
 - name: Source Maven profile
@@ -17,14 +17,10 @@
   
 # Settings
 - name: Maven global settings
-  template: src=maven/settings.xml.j2 dest={{ maven_shared_home }}/conf/settings.xml mode="u=rwx,g=r,o=r" owner=root
-
+  template: src=settings.xml.j2 dest={{ maven_shared_home }}/conf/settings.xml mode="u=rwx,g=r,o=r" owner=root
 - name: Setup Maven alternatives
-  template: src=maven/alternatives.j2 dest=~/alternatives.sh mode="u=rwx,g=r,o=r"
-
+  template: src=alternatives.j2 dest=~/alternatives.sh mode="u=rwx,g=r,o=r"
 - name: Apply Maven alternatives
   shell: ~/alternatives.sh
-
 - name: Delete alternatives script
   file: path=~/alternatives.sh state=absent
-  
