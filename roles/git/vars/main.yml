@@ -1,0 +1,8 @@
+---
+git_version: 2.11.0
+git_install_dir: /data
+git_src_tar: git-2.11.0.tar.gz
+git_build_dir: /data/git-2.11.0
+git_home: /apps/git-2.11.0
+git_shared_home: /usr/shared/git
+git_build_sh: build.sh

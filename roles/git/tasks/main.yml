@@ -1,0 +1,8 @@
+---
+# Gather tasks
+- include: facts.yml
+
+# Git installation
+- name: Install Git
+  include: kernel_git.yml
+  when: GIT_NOT_INSTALLED

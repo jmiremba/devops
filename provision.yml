@@ -16,6 +16,8 @@
     tags: java
   - role: maven
     tags: maven
+  - role: git
+    tags: git
 
 # Database servers
 - hosts: mysql_servers

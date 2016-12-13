@@ -1,0 +1,47 @@
+---
+# Required tools
+- name: Required libraries and utilities
+  yum: name={{ item }} state=present
+  with_items:
+  - 'curl-devel'
+  - 'expat-devel'
+  - 'gettext-devel'
+  - 'openssl-devel'
+  - 'zlib-devel'
+  - 'gcc'
+  - 'perl-ExtUtils-MakeMaker'
+
+# Extract archive
+- name: Extract archive to install directory
+  unarchive: src={{ git_src_tar }} dest={{ git_install_dir }} mode=0777 owner=root
+
+# Build script
+- name: Export build and environment scripts
+  template: src={{ item.src }} dest={{ item.dest }} mode="u=rwx,g=r,o=r" owner=root
+  with_items:
+  - src: 'build.sh.j2'
+    dest: "{{ git_build_dir }}/{{ git_build_sh }}"
+  - src: 'profile.sh.j2'
+    dest: "/etc/profile.d/git.sh"
+
+# Remove previous Git
+- name: Remove previous BIN symlink
+  file: path=/usr/bin/git state=absent
+
+# Build Git
+- name: Build Git from sources
+  shell: "{{ git_build_dir }}/{{ git_build_sh }}"
+  
+# Source the profile
+- name: Source Git environment
+  shell: "source /etc/profile.d/git.sh"
+
+- name: Delete build directory
+  file: path={{ git_build_dir }} state=absent
+
+# Remove existing Git
+- name: Remove YUM-installed Git
+  yum: name={{ item }} state=absent
+  with_items:
+  - 'git'
+  - 'git.x86_64'

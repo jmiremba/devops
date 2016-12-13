@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+# Enter the build directory
+cd {{ git_build_dir }}
+
+# Build and install Git
+make prefix={{ git_home }} all
+make prefix={{ git_home }} install
+
+# Symlink the shared directory
+ln -s {{ git_home }} {{ git_shared_home }}
+
+# Alternatives
+alternatives --install /usr/bin/git git {{ git_shared_home }}/bin/git 2
+alternatives --set git {{ git_shared_home }}/bin/git

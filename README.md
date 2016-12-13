@@ -18,3 +18,7 @@ https://dev.mysql.com/downloads/mysql/5.6.html
 #### Artifactory 4.14.3 ####
 All third-party dependencies will live in this repository, locally referenced in the Maven applications. We will also deploy our build products to an internal repository hosted in this server, to be used as part of application deployment in production.
 https://www.jfrog.com/artifactory/
+
+#### Git 2.11.0 ####
+For source code management and version, I use Git (GitHub and BitBucket). Our build process will check out code from Git repositories and build it for the various target environments as needed.
+https://git-scm.com/

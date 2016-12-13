@@ -128,3 +128,7 @@
 # Start the Artifactory service
 - name: Artifactory service started
   service: name=artifactory state=started enabled=true
+  
+# Wait for Artifactory to start
+- name: Wait for application to start
+  wait_for: port={{ artifactory_http_port }} delay=10
