@@ -1,0 +1,6 @@
+---
+java_version: 1.8.0_112
+java_install_dir: /apps
+java_src_tar: jdk-8u112-linux-x64.tar.gz
+java_home: /apps/jdk1.8.0_112
+java_shared_home: /usr/shared/java

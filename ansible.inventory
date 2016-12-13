@@ -1,10 +1,12 @@
 devops_vm ansible_ssh_host=192.168.254.81
 workhorse ansible_ssh_host=192.168.1.110
 
-[devops_servers]
+# Build servers
+[build_servers]
 devops_vm
 workhorse
 
+# Database servers
 [mysql_servers]
 devops_vm
 workhorse

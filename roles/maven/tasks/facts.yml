@@ -1,0 +1,11 @@
+---
+# Maven version
+- name: Check Maven version
+  shell: mvn -v 2>&1 | grep -E "Maven [0-9]+\.[0-9]+\.[0-9]+" | awk '{print $3}'
+  register: installed_maven_version
+- set_fact:
+    MAVEN_VERSION: "{{ installed_maven_version.stdout }}"
+    MAVEN_NOT_INSTALLED: "{{ maven_version not in installed_maven_version.stdout }}"
+- name: Installed Maven version
+  debug: msg="Installed Maven version = {{ MAVEN_VERSION }}"
+  

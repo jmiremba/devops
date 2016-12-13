@@ -1,0 +1,9 @@
+---
+# Gather tasks
+- include: facts.yml
+
+# Java8
+- name: Install Java
+  include: oracle_java.yml
+  when: JDK_NOT_INSTALLED
+  

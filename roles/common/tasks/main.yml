@@ -1,12 +1,10 @@
 ---
-# Gather tasks
-- include: facts.yml
-
 # Data and apps directories
-- name: Check DATA directory
-  file: path={{ data_dir }} state=directory mode=0775 setype=usr_t
-- name: Check APPS directory
-  file: path={{ apps_dir }} state=directory mode=0775 setype=usr_t
+- name: DATA and APPS directories
+  file: path={{ item }} state=directory mode=0775 setype=usr_t
+  with_items:
+  - "{{ data_dir }}"
+  - "{{ apps_dir }}"
 
 # Extra Packages for Enterprise Linux (EPEL)
 - name: Extra Packages for Enterprise Linux (EPEL)
@@ -34,13 +32,3 @@
   lineinfile: dest=/etc/selinux/config regexp=^SELINUX= line=SELINUX=enforcing
 - name: Enable SELinux
   command: setenforce 1
-
-# Java
-- name: Install Java
-  include: oracle_java.yml
-  when: JDK_NOT_INSTALLED
-
-# Maven
-- name: Install Maven
-  include: apache_maven.yml
-  when: MAVEN_NOT_INSTALLED

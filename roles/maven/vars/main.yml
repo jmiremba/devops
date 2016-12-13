@@ -1,0 +1,8 @@
+---
+maven_version: 3.3.9
+maven_install_dir: /apps
+maven_src_tar: apache-maven-3.3.9-bin.tar.gz
+maven_home: /apps/apache-maven-3.3.9
+maven_shared_home: /usr/shared/maven
+maven_repo_dir: /data/maven/repo
+maven_profile_sh: /etc/profile.d/maven.sh
