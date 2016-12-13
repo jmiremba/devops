@@ -1,7 +1,16 @@
 ---
+# All servers get some common stuff
 - hosts: all
   become: yes
   gather_facts: yes
-  
   roles:
-  - devops
+  - role: common
+    tags: common
+
+# Build servers
+- hosts: build_servers
+  become: yes
+  gather_facts: yes
+  roles:
+  - role: java
+    tags: java

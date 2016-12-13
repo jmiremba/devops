@@ -1,7 +1,4 @@
 ---
-# Gather tasks
-- include: facts.yml
-
 # Data and apps directories
 - name: Check DATA directory
   file: path={{ data_dir }} state=directory mode=0775 setype=usr_t
@@ -34,8 +31,3 @@
   lineinfile: dest=/etc/selinux/config regexp=^SELINUX= line=SELINUX=enforcing
 - name: Enable SELinux
   command: setenforce 1
-
-# Java8
-- name: Install Java
-  include: oracle_java.yml
-  when: JDK_NOT_INSTALLED

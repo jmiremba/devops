@@ -1,0 +1,15 @@
+---
+data_dir: /data
+apps_dir: /apps
+
+# Libraries and utilities
+yum_libraries_utilities:
+- ntp
+- policycoreutils-python
+- zip
+- unzip
+- vim
+- dkms
+- iptables-services
+- kernel-devel
+- kernel-tools
