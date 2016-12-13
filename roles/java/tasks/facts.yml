@@ -1,0 +1,11 @@
+---
+# Java version
+- name: Check Java version
+  shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+  register: installed_java_version
+- set_fact:
+    JDK_VERSION: "{{ installed_java_version.stdout }}"
+    JDK_NOT_INSTALLED: "{{ java_version not in installed_java_version.stdout }}"
+- name: Installed Java version
+  debug: msg="Installed Java version = {{ JDK_VERSION }}"
+  
