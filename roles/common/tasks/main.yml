@@ -1,4 +1,10 @@
 ---
+# Update system
+- name: Update system packages (not kernel)
+  shell: "yum update -y --exclude=kernel*"
+  args:
+    warn: false
+
 # Data and apps directories
 - name: DATA and APPS directories
   file: path={{ item }} state=directory mode=0775 setype=usr_t
@@ -32,3 +38,11 @@
   lineinfile: dest=/etc/selinux/config regexp=^SELINUX= line=SELINUX=enforcing
 - name: Enable SELinux
   command: setenforce 1
+
+# Fix the export in global environment
+- name: Fix environment export paths
+  lineinfile:
+    dest: /etc/bashrc
+    regexp: '^export PATH=\/'
+    insertafter: '# vim:ts=4:sw=4'
+    line: 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin'

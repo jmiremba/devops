@@ -31,17 +31,20 @@
 # Build Git
 - name: Build Git from sources
   shell: "{{ git_build_dir }}/{{ git_build_sh }}"
-  
-# Source the profile
-- name: Source Git environment
-  shell: "source /etc/profile.d/git.sh"
 
+# Clean up
 - name: Delete build directory
   file: path={{ git_build_dir }} state=absent
-
-# Remove existing Git
 - name: Remove YUM-installed Git
   yum: name={{ item }} state=absent
   with_items:
   - 'git'
   - 'git.x86_64'
+
+# Update profile
+- name: Update global environment path
+  lineinfile:
+    dest: /etc/bashrc
+    regexp: 'export PATH=.*PATH:{{ git_shared_home }}.*'
+    line: 'export PATH=$PATH:{{ git_shared_home }}/bin'
+    insertafter: '^export PATH=\/'

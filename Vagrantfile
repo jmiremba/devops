@@ -15,5 +15,13 @@ Vagrant.configure("2") do |config|
         devops.vm.network :private_network, ip: "192.168.254.81"
         devops.vm.network :forwarded_port, guest: 80, host: 8081, id: 'http'
         devops.vm.network :forwarded_port, guest: 18081, host: 18081, id: 'artifactory'
+        
+        # Update packages
+        devops.vm.provision "shell", inline: "sudo yum update -y"
+        
+        # Custom settings
+        devops.vm.provider :virtualbox do |v|
+            v.customize ["modifyvm", :id, "--memory", 2048]
+        end
     end
 end

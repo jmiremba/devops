@@ -1,7 +1,7 @@
 ---
 # GIT version
 - name: Query for Git version
-  shell: git --version 2>&1 | grep -E "git version [0-9]+\.[0-9]+\.[0-9]+" | awk '{print $3}'
+  shell: source /etc/bashrc ; git --version 2>&1 | grep -E "git version [0-9]+\.[0-9]+\.[0-9]+" | awk '{print $3}'
   register: installed_git_version
 - name: Set Git version
   set_fact:
