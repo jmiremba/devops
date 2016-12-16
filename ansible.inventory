@@ -14,3 +14,7 @@ workhorse
 [artifactory_servers]
 devops_vm
 workhorse
+
+[jenkins_servers]
+devops_vm
+workhorse

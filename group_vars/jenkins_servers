@@ -1,0 +1,4 @@
+---
+jenkins_home_dir: /data/jenkins
+jenkins_http_port: 18082
+jenkins_ajp_port: 28082

@@ -29,6 +29,10 @@
 - name: Ensure NTP is running
   service: name=ntpd state=started enabled=yes
 
+# Disable firewall
+- name: Disable FIREWALL service
+  service: name=firewalld enabled=no state=stopped
+  
 # IPTABLES
 - name: Start IPTABLES service
   service: name=iptables enabled=yes state=started

@@ -1,0 +1,60 @@
+---
+# Configure default users
+- name: Update Jenkins configuration
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ jenkins_home_dir }}/{{ item }}"
+    group: jenkins
+    owner: jenkins
+  with_items:
+    - 'config.xml'
+    - 'credentials.xml'
+    - 'hudson.maven.MavenModuleSet.xml'
+    - 'hudson.plugins.emailext.ExtendedEmailPublisher.xml'
+    - 'hudson.plugins.git.GitSCM.xml'
+    - 'hudson.plugins.git.GitTool.xml'
+    - 'hudson.tasks.Mailer.xml'
+    - 'hudson.tasks.Maven.xml'
+    - 'hudson.tasks.Shell.xml'
+    - 'hudson.triggers.SCMTrigger.xml'
+    - 'jenkins.model.ArtifactManagerConfiguration.xml'
+    - 'jenkins.model.DownloadSettings.xml'
+    - 'jenkins.model.JenkinsLocationConfiguration.xml'
+    - 'jenkins.mvn.GlobalMavenConfig.xml'
+    - 'jenkins.security.QueueItemAuthenticatorConfiguration.xml'
+  notify: Restart Jenkins
+
+# Admin user
+- name: User directory
+  file:
+    path: "{{ jenkins_users_dir }}/{{ jenkins_admin_username }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+
+# User configuration
+- name: Update user configuration
+  template:
+    src: 'user-config.xml.j2'
+    dest: "{{ jenkins_users_dir }}/{{ jenkins_admin_username }}/config.xml"
+    group: jenkins
+    owner: jenkins
+  notify: Restart Jenkins
+  
+# Prevent the warning "Slave To Master Access Control" warning
+- name: User directory
+  file:
+    path: "{{ jenkins_users_dir }}/{{ jenkins_admin_username }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+
+# User configuration
+- name: Update slave-to-master flag
+  template:
+    src: 'slave-to-master-security-kill-switch.j2'
+    dest: "{{ jenkins_home_dir }}/secrets/slave-to-master-security-kill-switch"
+    group: jenkins
+    owner: jenkins
+    mode: 0644
+  notify: Restart Jenkins

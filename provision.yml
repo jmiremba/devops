@@ -34,3 +34,11 @@
   roles:
   - role: artifactory
     tags: artifactory
+
+# Jenkins servers
+- hosts: jenkins_servers
+  become: yes
+  gather_facts: yes
+  roles:
+  - role: jenkins
+    tags: jenkins

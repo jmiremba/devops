@@ -1,0 +1,48 @@
+---
+jenkins_repo_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+jenkins_repo_key_url: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+jenkins_version: '2.36'
+jenkins_pkg_url: http://pkg.jenkins.io/redhat
+jenkins_hostname: localhost
+jenkins_jar_location: /tmp/jenkins-cli.jar
+jenkins_rpm_location: /tmp/jenkins.rpm
+jenkins_backup_tar: jenkins_backup.tar.gz
+jenkins_users_dir: "{{ jenkins_home_dir }}/users"
+
+# Dependencies
+jenkins_jdk_name: 'JDK-1.8.0_112'
+java_home: /usr/shared/java
+jenkins_git_name: 'GIT-2.11.0'
+git_home: /usr/shared/git
+jenkins_maven_name: 'MAVEN-3.3.9'
+maven_home: /usr/shared/maven
+
+# Configuration changes
+jenkins_url_prefix: ""
+jenkins_config_file: /etc/sysconfig/jenkins
+jenkins_config_changes:
+  - config: "JENKINS_ARGS"
+    property: "--prefix={{ jenkins_url_prefix }}"
+  - config: "JENKINS_JAVA_OPTIONS"
+    property: "-Djenkins.install.runSetupWizard=false -Dhudson.diyChunking=false"
+  - config: 'JENKINS_JAVA_CMD'
+    property: '{{ java_home }}/bin/java'
+  - config: 'JENKINS_HOME'
+    property: '{{ jenkins_home_dir }}'
+  - config: 'JENKINS_PORT'
+    property: '{{ jenkins_http_port }}'
+  - config: 'JENKINS_AJP_PORT'
+    property: '{{ jenkins_ajp_port }}'
+
+# Plugins
+jenkins_plugins:
+  - 'cobertura'
+  - 'covcomplplot'
+  - 'email-ext'
+  - 'github-organization-folder'
+  - 'workflow-aggregator'
+  - 'role-strategy'
+  - 'ssh-slaves'
+  - 'analysis-collector'
+  - 'testng-plugin'
+  - 'translation'

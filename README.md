@@ -22,3 +22,7 @@ https://www.jfrog.com/artifactory/
 #### Git 2.11.0 ####
 For source code management and version, I use Git (GitHub and BitBucket). Our build process will check out code from Git repositories and build it for the various target environments as needed.
 https://git-scm.com/
+
+#### Jenkins 2.36 ####
+Jenkins is what will build our artifacts, do testing, documentation, and finally deployment to our various environments. In many regards, Jenkins ties together all the other components previously configured in order to build and distribute our software.
+https://jenkins.io/
