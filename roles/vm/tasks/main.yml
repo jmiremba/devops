@@ -1,0 +1,46 @@
+---
+# Whether VirtualBox is installed
+- name: Whether VirtualBox is installed
+  stat: path=/usr/bin/vboxmanage
+  register: vbox_installed
+  
+# Installed VirtualBox version, if installed
+- name: Obtain existing VirtualBox version
+  shell: "{{ vbox_version_cmd }}"
+  register: installed_vbox_version
+  changed_when: false
+  when: vbox_installed.stat.exists
+- set_fact:
+    do_install_vbox: "{{ vbox_version not in installed_vbox_version.stdout }}"
+  when: vbox_installed is defined and vbox_installed.stat.exists
+- name: Existing VirtualBox version
+  debug: msg="Existing VirtualBox version = {{ installed_vbox_version.stdout }}"
+  when: vbox_installed is defined and installed_vbox_version.stdout is defined
+
+# Install VirtualBox if not installed
+- name: Install VirtualBox
+  include: virtualbox.yml
+  when: (do_install_vbox is defined and do_install_vbox == true) or (not vbox_installed.stat.exists)
+
+# Whether Vagrant is installed
+- name: Whether Vagrant is installed
+  stat: path=/usr/bin/vagrant
+  register: vagrant_installed
+  
+# Installed Vagrant version, if installed
+- name: Obtain existing Vagrant version
+  shell: "{{ vagrant_version_cmd }}"
+  register: installed_vagrant_version
+  changed_when: false
+  when: vagrant_installed is defined and vagrant_installed.stat.exists
+- set_fact:
+    do_install_vagrant: "{{ vagrant_version not in installed_vagrant_version.stdout }}"
+  when: vagrant_installed is defined and vagrant_installed.stat.exists
+- name: Existing Vagrant version
+  debug: msg="Existing Vagrant version = {{ installed_vagrant_version.stdout }}"
+  when: installed_vagrant_version is defined and installed_vagrant_version.stdout is defined
+
+# Install Vagrant if not installed
+- name: Install Vagrant
+  include: vagrant.yml
+  when: (do_install_vagrant is defined and do_install_vagrant == true) or (not vagrant_installed.stat.exists)

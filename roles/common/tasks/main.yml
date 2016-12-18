@@ -15,6 +15,10 @@
 # Extra Packages for Enterprise Linux (EPEL)
 - name: Extra Packages for Enterprise Linux (EPEL)
   yum: name=epel-release state=latest
+- name: EPEL repository key 
+  rpm_key:
+    key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+    state: present
 
 # Libraries and utilities
 - name: Libraries and utilities

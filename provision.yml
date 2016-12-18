@@ -18,6 +18,8 @@
     tags: maven
   - role: git
     tags: git
+  - role: vm
+    tags: vm
 
 # Database servers
 - hosts: mysql_servers

@@ -26,3 +26,8 @@ https://git-scm.com/
 #### Jenkins 2.36 ####
 Jenkins is what will build our artifacts, do testing, documentation, and finally deployment to our various environments. In many regards, Jenkins ties together all the other components previously configured in order to build and distribute our software.
 https://jenkins.io/
+
+#### Vagrant 1.9.1 and VirtualBox 5.1 ####
+We will need VirtualBox and Vagrant to create test environments when Jenkins kicks off tests. This will be done only on the real machine (not sure you can successfully run a VM within a VM). Only when testing within or real machines will we spin up virtual machines.
+- https://www.virtualbox.org/
+- https://www.vagrantup.com/

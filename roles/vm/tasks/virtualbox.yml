@@ -1,0 +1,47 @@
+---
+# Repository
+- name: VirtualBox repository
+  get_url:
+    url: "{{ vbox_repo_url }}"
+    dest: /etc/yum.repos.d/virtualbox.repo
+
+# Dependencies
+- name: VirtualBox dependencies
+  yum: name={{ item }} state=latest
+  with_items:
+    - 'binutils'
+    - 'gcc'
+    - 'make'
+    - 'patch'
+    - 'libgomp'
+    - 'glibc-headers'
+    - 'glibc-devel'
+    - 'kernel-headers'
+    - 'kernel-devel'
+    - 'dkms'
+
+# Required kernel module
+- name: Copy required kernel modules
+  copy:
+    src: "{{ role_path }}/files/{{ vbox_kernel_devel_rpm }}"
+    dest: "/tmp/{{ vbox_kernel_devel_rpm }}"
+- name: Install kernel-devel module
+  shell: "yum localinstall -y /tmp/{{ vbox_kernel_devel_rpm }}"
+  args:
+    warn: false
+- name: Delete uploaded RPM
+  file: path="/tmp/{{ vbox_kernel_devel_rpm }}", state=absent
+
+# Virtualbox
+- name: Install VirtualBox
+  yum: name=VirtualBox-5.1 state=latest
+
+# Version installed
+- name: Check installed VirtualBox version
+  shell: "{{ vbox_version_cmd }}"
+  register: installed_vbox_version
+- set_fact:
+    vbox_version: "{{ installed_vbox_version.stdout }}"
+- name: Installed VirtualBox version
+  debug: msg="Installed VirtualBox version = {{ vbox_version }}"
+  

@@ -18,3 +18,7 @@ workhorse
 [jenkins_servers]
 devops_vm
 workhorse
+
+[virtual_machines]
+devops_vm
+workhorse

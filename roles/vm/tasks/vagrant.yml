@@ -1,0 +1,14 @@
+---
+# Install from RPM
+- name: Install Vagrant
+  yum: name={{ vagrant_rpm_url }} state=installed
+
+# Version installed
+- name: Check installed Vagrant version
+  shell: "{{ vagrant_version_cmd }}"
+  register: installed_vagrant_version
+- set_fact:
+    vagrant_version: "{{ installed_vagrant_version.stdout }}"
+- name: Installed Vagrant version
+  debug: msg="Installed Vagrant version = {{ vagrant_version }}"
+  

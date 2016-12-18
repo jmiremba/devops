@@ -1,0 +1,8 @@
+---
+vbox_version: '5.1.10'
+vbox_repo_url: http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+vbox_version_cmd: "vboxmanage -v 2>&1 | sed 's/^.*{{ vbox_version }}/{{ vbox_version }}/g'"
+vbox_kernel_devel_rpm: kernel-devel-3.10.0-327.36.3.el7.x86_64.rpm
+vagrant_version: '1.9.1'
+vagrant_rpm_url: https://releases.hashicorp.com/vagrant/{{ vagrant_version}}/vagrant_{{ vagrant_version}}_x86_64.rpm
+vagrant_version_cmd: "vagrant -v 2>&1 | sed 's/vagrant //ig'"

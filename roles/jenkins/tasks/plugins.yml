@@ -14,6 +14,7 @@
   shell: curl -L https://updates.jenkins-ci.org/update-center.json | sed '1d;$d' > "{{ jenkins_home_dir }}/updates/default.json"
   args:
     creates: "{{ jenkins_home_dir }}/updates/default.json"
+    warn: false
 - name: Permissions for default.json updates info
   file:
     path: "{{ jenkins_home_dir }}/updates/default.json"
