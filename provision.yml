@@ -20,6 +20,8 @@
     tags: git
   - role: vm
     tags: vm
+  - role: ansible
+    tags: ansible
 
 # Database servers
 - hosts: mysql_servers

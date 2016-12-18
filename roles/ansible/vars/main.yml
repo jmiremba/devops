@@ -1,0 +1,4 @@
+---
+ansibl_version: 2.2.0.0
+ansibl_version_cmd: "ansible --version 2>&1 | awk '{print $2}' | grep '{{ ansibl_version }}'"
+ansibl_vault_password_file: /etc/ansible/vault_password

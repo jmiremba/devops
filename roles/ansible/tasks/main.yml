@@ -1,0 +1,43 @@
+---
+# Secrets
+- include_vars: secrets.yml
+
+# Whether Ansible is installed
+- name: Whether Ansible is installed
+  stat: path=/usr/bin/ansible
+  register: ansibl_installed
+  
+# Installed Ansible version, if installed
+- name: Obtain existing Ansible version
+  shell: "{{ ansibl_version_cmd }}"
+  register: installed_ansibl_version
+  changed_when: false
+  when: ansibl_installed.stat.exists
+- set_fact:
+    do_install_ansibl: "{{ ansibl_version not in installed_ansibl_version.stdout }}"
+  when: ansibl_installed is defined and ansibl_installed.stat.exists
+- name: Existing Ansible version
+  debug: msg="Existing Ansible version = {{ installed_ansibl_version.stdout }}"
+  when: ansibl_installed is defined and installed_ansibl_version.stdout is defined
+
+# Install Ansible
+- name: Install Ansible
+  yum: name="ansible-{{ ansibl_version }}" state=present
+  register: ansible_installed
+  when: (do_install_ansibl is defined and do_install_ansibl == true) or (not ansibl_installed.stat.exists)
+
+# Vault password
+- name: Vault password
+  copy: content="{{ ansibl_vault_password }}", dest="{{ ansibl_vault_password_file }}"
+
+# Version installed
+- block:
+  - name: Check installed Ansible version
+    shell: "{{ ansibl_version_cmd }}"
+    register: installed_ansibl_version
+  - set_fact:
+      ansibl_version: "{{ installed_ansibl_version.stdout }}"
+  - name: Installed Ansible version
+    debug: msg="Installed Ansible version = {{ ansibl_version }}"
+  when: ansible_installed.changed == true
+  
