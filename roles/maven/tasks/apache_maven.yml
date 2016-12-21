@@ -32,3 +32,4 @@
     regexp: 'export PATH=.*PATH:{{ maven_shared_home }}.*'
     line: 'export PATH=$PATH:{{ maven_shared_home }}/bin'
     insertafter: '^export PATH=\/'
+    

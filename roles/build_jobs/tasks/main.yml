@@ -1,0 +1,22 @@
+---
+# Jobs directory
+- name: Jenkins jobs directory
+  file:
+    path: "{{ jenkins_jobs_dir }}/{{ geldzin4dev_jobName }}"
+    state: directory
+    owner: jenkins
+
+# Jobs
+- name: Upload Jenkins build jobs
+  template:
+    src: 'Geldzin4DEV-config.xml.j2'
+    dest: "{{ jenkins_jobs_dir }}/{{ geldzin4dev_jobName }}/config.xml"
+  notify: Restart Jenkins
+  
+# Jenkins user in sudoers
+- name: Jenkins user in sudoers
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/jenkins
+    mode: 0644
+  notify: Restart Jenkins

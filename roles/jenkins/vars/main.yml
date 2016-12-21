@@ -1,7 +1,7 @@
 ---
 jenkins_repo_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
 jenkins_repo_key_url: https://jenkins-ci.org/redhat/jenkins-ci.org.key
-jenkins_version: '2.36'
+jenkins_version: '2.37'
 jenkins_pkg_url: http://pkg.jenkins.io/redhat
 jenkins_hostname: localhost
 jenkins_jar_location: /tmp/jenkins-cli.jar
@@ -16,6 +16,8 @@ jenkins_git_name: 'GIT-2.11.0'
 git_home: /usr/shared/git
 jenkins_maven_name: 'MAVEN-3.3.9'
 maven_home: /usr/shared/maven
+jenkins_ansible_name: 'ANSIBLE-2.2.0.0'
+ansible_home: /usr/bin
 
 # Configuration changes
 jenkins_url_prefix: ""
@@ -46,3 +48,5 @@ jenkins_plugins:
   - 'analysis-collector'
   - 'testng-plugin'
   - 'translation'
+  - 'ansible'
+  - 'findbugs'

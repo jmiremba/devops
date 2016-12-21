@@ -6,3 +6,10 @@
 - name: Install Maven
   include: apache_maven.yml
   when: MAVEN_NOT_INSTALLED
+
+# Permissions for Maven repo
+- name: Permissions for Maven repo
+  file:
+    path: "{{ maven_repo_dir }}"
+    state: directory
+    mode: 0777

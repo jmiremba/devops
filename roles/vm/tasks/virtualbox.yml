@@ -21,16 +21,22 @@
     - 'dkms'
 
 # Required kernel module
+- name: Check if kernel module is installed
+  stat: path="/usr/src/kernels/{{ vbox_kernel_version }}"
+  register: kernel_module_installed
 - name: Copy required kernel modules
   copy:
     src: "{{ role_path }}/files/{{ vbox_kernel_devel_rpm }}"
     dest: "/tmp/{{ vbox_kernel_devel_rpm }}"
+  when: not kernel_module_installed.stat.exists
 - name: Install kernel-devel module
   shell: "yum localinstall -y /tmp/{{ vbox_kernel_devel_rpm }}"
   args:
     warn: false
+  when: not kernel_module_installed.stat.exists
 - name: Delete uploaded RPM
   file: path="/tmp/{{ vbox_kernel_devel_rpm }}", state=absent
+  when: not kernel_module_installed.stat.exists
 
 # Virtualbox
 - name: Install VirtualBox

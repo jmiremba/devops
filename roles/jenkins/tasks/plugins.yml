@@ -32,3 +32,11 @@
     creates: "{{ jenkins_home_dir }}/plugins/{{ item }}.jpi"
   with_items: "{{ jenkins_plugins }}"
   notify: Restart Jenkins
+  
+# Remove anonymous from admins group
+- name: Remove "anonymous" user from "admin" group
+  lineinfile:
+    dest: "{{ jenkins_home_dir }}/config.xml"
+    state: absent
+    regexp: '.*sid.*anonymous.*Temporarily to install plugins.*'
+  notify: Restart Jenkins

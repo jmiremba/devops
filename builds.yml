@@ -1,0 +1,8 @@
+---
+# Where builds happen
+- hosts: jenkins_servers
+  become: yes
+  gather_facts: yes
+  roles:
+  - role: build_jobs
+    tags: build_jobs

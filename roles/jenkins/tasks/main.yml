@@ -34,9 +34,30 @@
   retries: 5
   delay: 10
 
+# SSH keys directory
+- name: Jenkins SSH keys directory
+  file:
+    path: "{{ jenkins_ssh_keys_dir }}"
+    state: directory
+    owner: jenkins
+    mode: 0700
+
+# Private/public key
+- name: Jenkins public/private keys
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ jenkins_ssh_keys_dir }}/{{ item.filename }}"
+    owner: jenkins
+    mode: 0600
+  no_log: true
+  with_items:
+    - content: "{{ jenkins_public_key }}"
+      filename: "{{ jenkins_ssh_public_key_file }}"
+    - content: "{{ jenkins_private_key }}"
+      filename: "{{ jenkins_ssh_private_key_file }}"
+
 # Plugins
 - include: plugins.yml
-- include: customize.yml
 
 # Clean up
 - name: Cleanup scripts and files
