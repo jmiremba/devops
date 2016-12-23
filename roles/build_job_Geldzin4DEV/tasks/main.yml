@@ -1,0 +1,14 @@
+---
+# Directory
+- name: Jenkins jobs directory
+  file:
+    path: "{{ jenkins_jobs_dir }}/{{ jobName }}"
+    state: directory
+    owner: jenkins
+
+# Job configuration
+- name: Jenkins build job configuration
+  template:
+    src: config.xml.j2
+    dest: "{{ jenkins_jobs_dir }}/{{ jobName }}/config.xml"
+  notify: Restart Jenkins

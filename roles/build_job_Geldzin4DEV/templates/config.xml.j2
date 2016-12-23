@@ -1,30 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+{{ ansible_managed }}
+-->
+
 <project>
   <actions/>
-  <description>{{ geldzin4dev_description }}</description>
+  <description>{{ description }}</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.25.0">
-      <projectUrl>{{ geldzin4dev_projectUrl }}</projectUrl>
-      <displayName>{{ geldzin4dev_displayName }}</displayName>
+      <projectUrl>{{ projectUrl }}</projectUrl>
+      <displayName>{{ displayName }}</displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.0.1">
     <configVersion>1</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>{{ geldzin4dev_gitUrl }}</url>
-        <credentialsId>{{ geldzin4dev_credentialsId }}</credentialsId>
+        <url>{{ gitUrl }}</url>
+        <credentialsId>{{ credentialsId }}</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>{{ geldzin4dev_repoBranch }}</name>
+        <name>{{ repoBranch }}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    <browser class="{{ geldzin4dev_browserClass }}">
-      <url>{{ geldzin4dev_browserUrl }}</url>
+    <browser class="{{ browserClass }}">
+      <url>{{ browserUrl }}</url>
     </browser>
     <submoduleCfg class="list"/>
     <extensions/>
@@ -35,18 +40,18 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>{{ geldzin4dev_scmPolling }}</spec>
+      <spec>{{ scmPolling }}</spec>
       <ignorePostCommitHooks>true</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder plugin="ansible@0.5">
-      <playbook>{{ geldzin4dev_ansibleTestPrepPlaybook }}</playbook>
+      <playbook>{{ ansibleTestPrepPlaybook }}</playbook>
       <inventory class="org.jenkinsci.plugins.ansible.InventoryPath">
-        <path>{{ geldzin4dev_ansibleInventory }}</path>
+        <path>{{ ansibleInventory }}</path>
       </inventory>
-      <ansibleName>{{ geldzin4dev_ansibleName }}</ansibleName>
+      <ansibleName>{{ ansibleName }}</ansibleName>
       <limit></limit>
       <tags></tags>
       <skippedTags></skippedTags>
@@ -62,22 +67,22 @@
       <copyCredentialsInWorkspace>false</copyCredentialsInWorkspace>
     </org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder>
     <hudson.tasks.Maven>
-      <targets>{{ geldzin4dev_mavenGoals }}</targets>
-      <mavenName>{{ geldzin4dev_mavenName }}</mavenName>
-      <jvmOptions>{{ geldzin4dev_mavenJvmOptions }}</jvmOptions>
+      <targets>{{ mavenGoals }}</targets>
+      <mavenName>{{ mavenName }}</mavenName>
+      <jvmOptions>{{ mavenJvmOptions }}</jvmOptions>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.FilePathGlobalSettingsProvider">
-        <path>{{ geldzin4dev_mavenSettings }}</path>
+        <path>{{ mavenSettings }}</path>
       </globalSettings>
       <injectBuildVariables>false</injectBuildVariables>
     </hudson.tasks.Maven>
     <org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder plugin="ansible@0.5">
-      <playbook>{{ geldzin4dev_ansibleTestConclPlaybook }}</playbook>
+      <playbook>{{ ansibleTestConclPlaybook }}</playbook>
       <inventory class="org.jenkinsci.plugins.ansible.InventoryPath">
-        <path>{{ geldzin4dev_ansibleInventory }}</path>
+        <path>{{ ansibleInventory }}</path>
       </inventory>
-      <ansibleName>{{ geldzin4dev_ansibleName }}</ansibleName>
+      <ansibleName>{{ ansibleName }}</ansibleName>
       <limit></limit>
       <tags></tags>
       <skippedTags></skippedTags>
@@ -213,7 +218,7 @@
       <locateTopMost>true</locateTopMost>
     </hudson.plugins.covcomplplot.CovComplPlotPublisher>
     <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.52">
-      <recipientList>{{ geldzin4dev_emailRecipientList }}</recipientList>
+      <recipientList>{{ emailRecipientList }}</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.FailureTrigger>
           <email>
@@ -294,7 +299,7 @@
       <postsendScript>$DEFAULT_POSTSEND_SCRIPT</postsendScript>
       <attachBuildLog>false</attachBuildLog>
       <compressBuildLog>false</compressBuildLog>
-      <replyTo>{{ geldzin4dev_emailRecipientList }}</replyTo>
+      <replyTo>{{ emailRecipientList }}</replyTo>
       <saveOutput>false</saveOutput>
       <disabled>false</disabled>
     </hudson.plugins.emailext.ExtendedEmailPublisher>

@@ -1,0 +1,3 @@
+---
+jenkins_home_dir: /data/jenkins
+jenkins_jobs_dir: '{{ jenkins_home_dir }}/jobs'
