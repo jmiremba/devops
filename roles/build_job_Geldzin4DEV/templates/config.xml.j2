@@ -47,9 +47,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder plugin="ansible@0.5">
-      <playbook>{{ ansibleTestPrepPlaybook }}</playbook>
+      <playbook>${WORKSPACE}/{{ ansibleTestPrepPlaybook }}</playbook>
       <inventory class="org.jenkinsci.plugins.ansible.InventoryPath">
-        <path>{{ ansibleInventory }}</path>
+        <path>${WORKSPACE}/{{ ansibleInventory }}</path>
       </inventory>
       <ansibleName>{{ ansibleName }}</ansibleName>
       <limit></limit>
@@ -63,7 +63,7 @@
       <unbufferedOutput>true</unbufferedOutput>
       <colorizedOutput>false</colorizedOutput>
       <hostKeyChecking>false</hostKeyChecking>
-      <additionalParameters></additionalParameters>
+      <additionalParameters>--vault-password-file {{ ansible_vault_password_file }}</additionalParameters>
       <copyCredentialsInWorkspace>false</copyCredentialsInWorkspace>
     </org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder>
     <hudson.tasks.Maven>
@@ -78,9 +78,9 @@
       <injectBuildVariables>false</injectBuildVariables>
     </hudson.tasks.Maven>
     <org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder plugin="ansible@0.5">
-      <playbook>{{ ansibleTestConclPlaybook }}</playbook>
+      <playbook>${WORKSPACE}/{{ ansibleTestConclPlaybook }}</playbook>
       <inventory class="org.jenkinsci.plugins.ansible.InventoryPath">
-        <path>{{ ansibleInventory }}</path>
+        <path>${WORKSPACE}/{{ ansibleInventory }}</path>
       </inventory>
       <ansibleName>{{ ansibleName }}</ansibleName>
       <limit></limit>
@@ -94,7 +94,7 @@
       <unbufferedOutput>true</unbufferedOutput>
       <colorizedOutput>false</colorizedOutput>
       <hostKeyChecking>false</hostKeyChecking>
-      <additionalParameters></additionalParameters>
+      <additionalParameters>--vault-password-file {{ ansible_vault_password_file }}</additionalParameters>
       <copyCredentialsInWorkspace>false</copyCredentialsInWorkspace>
     </org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder>
   </builders>

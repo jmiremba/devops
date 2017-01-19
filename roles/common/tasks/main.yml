@@ -1,4 +1,9 @@
 ---
+# Remove unwanted libraries
+- name: Remove unwanted packages
+  yum: name='{{ item }}' state=absent
+  with_items: '{{ yum_libraries_utilities_remove }}'
+
 # Update system
 - name: Update system packages (not kernel)
   shell: "yum update -y --exclude=kernel*"
