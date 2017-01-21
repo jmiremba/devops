@@ -1,4 +1,7 @@
 ---
+# Variables
+- include_vars: jenkins/Geldzin4DEV/variables.yml
+
 # Directory
 - name: Jenkins jobs directory
   file:

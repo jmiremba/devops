@@ -1,0 +1,11 @@
+---
+is_vm: false
+ansible_ssh_user: root
+
+# Artifactory
+artifactory_server_name: workhorse
+artifactory_mail_url: http://jubilee.homeip.net:81
+
+# Jenkins
+jenkins_admin_email: 'STRIVE Jenkins &lt;jenkins@strive-ltd.com&gt;'
+jenkins_external_url: http://jubilee.homeip.net:82

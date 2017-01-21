@@ -1,0 +1,28 @@
+---
+# Where builds happen
+- hosts: jenkins_servers
+  become: yes
+  gather_facts: yes
+
+  # Variables
+  vars_files:
+    - jenkins/settings.yml
+
+  # Handers
+  handlers:
+    - name: Restart Jenkins
+      service: name=jenkins state=restarted
+  
+  # Tasks
+  tasks:
+    # Jenkins user in sudoers
+    - name: Jenkins user in sudoers
+      template:
+        src: jenkins/templates/sudoers.j2
+        dest: /etc/sudoers.d/jenkins
+        mode: 0644
+      notify: Restart Jenkins
+
+    # Setup Jenkins build jobs
+    - include: jenkins/{{ item }}/job.yml
+      with_items: "{{ build_jobs }}"

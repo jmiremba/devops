@@ -1,4 +1,9 @@
 ---
+# Jenkins
 jenkins_home_dir: /data/jenkins
 jenkins_jobs_dir: '{{ jenkins_home_dir }}/jobs'
-ansible_vault_password_file: /etc/ansible/vault_password
+
+# Jobs
+builds_jobs_dir: jenkins
+build_jobs:
+  - Geldzin4DEV
