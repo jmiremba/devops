@@ -28,7 +28,10 @@
 
 # Vault password
 - name: Vault password
-  copy: content="{{ ansibl_vault_password }}", dest="{{ ansibl_vault_password_file }}"
+  copy:
+    src: "{{ ansibl_vault_password_file }}"
+    dest: "{{ ansibl_vault_password_file }}"
+    mode: "u=rw,g=r,o=r"
 
 # Version installed
 - block:

@@ -1,0 +1,9 @@
+---
+# Jenkins
+jenkins_home_dir: /data/jenkins
+jenkins_jobs_dir: '{{ jenkins_home_dir }}/jobs'
+
+# Jobs
+builds_jobs_dir: jenkins
+build_jobs:
+  - Geldzin4DEV

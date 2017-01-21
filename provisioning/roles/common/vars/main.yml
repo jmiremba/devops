@@ -13,3 +13,8 @@ yum_libraries_utilities:
 - iptables-services
 - kernel-devel
 - kernel-tools
+
+# Libraries and utilities to remove
+yum_libraries_utilities_remove:
+- jenkins
+- git

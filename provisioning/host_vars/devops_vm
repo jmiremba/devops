@@ -1,0 +1,12 @@
+---
+is_vm: true
+ansible_ssh_user: vagrant
+ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
+
+# Artifactory
+artifactory_server_name: devops
+artifactory_mail_url: http://{{ ansible_default_ipv4.address }}:18081
+
+# Jenkins
+jenkins_admin_email: 'TEST Jenkins &lt;jenkins@strive-ltd.com&gt;'
+jenkins_external_url: http://{{ ansible_default_ipv4.address }}:{{ jenkins_http_port }}
