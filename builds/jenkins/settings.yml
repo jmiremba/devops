@@ -3,6 +3,14 @@
 jenkins_home_dir: /data/jenkins
 jenkins_jobs_dir: '{{ jenkins_home_dir }}/jobs'
 
+# Common
+ansible_vault_password_file: /etc/ansible/vault_password
+credentialsId: 'b973bfb5-e853-4594-aee0-a817bb389a6b'
+mavenName: 'MAVEN-3.3.9'
+mavenSettings: /usr/shared/maven/conf/settings.xml
+ansibleName: 'ANSIBLE-2.2.0.0'
+emailRecipientList: 'jmiremba@strive-ltd.com'
+
 # Jobs
 builds_jobs_dir: jenkins
 build_jobs:

@@ -4,17 +4,12 @@ description: 'Builds and tests the Geldzin4 web application, with sources in Bit
 projectUrl: https://bitbucket.org/jmiremba/geldzin4dev/
 displayName: 'Development project on BitBucket'
 gitUrl: 'git@bitbucket.org:jmiremba/geldzin4dev.git'
-credentialsId: 'b973bfb5-e853-4594-aee0-a817bb389a6b'
 repoBranch: '*/master'
 browserClass: 'hudson.plugins.git.browser.BitbucketWeb'
 browserUrl: 'https://bitbucket.org/jmiremba/geldzin4dev'
 scmPolling: 'H/10 * * * *'
 mavenGoals: 'clean cobertura:cobertura site:site site:stage -Pjenkins_sanity'
-mavenName: 'MAVEN-3.3.9'
-mavenSettings: /usr/shared/maven/conf/settings.xml
 mavenJvmOptions: '-Dgeldzin.config=/var/builds/geldzin4/geldzin.properties'
-ansibleName: 'ANSIBLE-2.2.0.0'
 ansibleInventory: ansible/ansible.inventory
 ansibleTestPrepPlaybook: ansible/test-preparation.yml
 ansibleTestConclPlaybook: ansible/test-conclusion.yml
-emailRecipientList: 'jmiremba@strive-ltd.com'
